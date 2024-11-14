@@ -70,6 +70,11 @@ class Graph:
     def Lagranj(self):
         x = self.x
         y = self.y
+        half = len(x) // 2
+        x1 = x[:half+1]
+        x2 = x[half:]
+        y1 = y[:half+1]
+        y2 = y[half:]
         # считает базу 
         def base(x_val,i):
             def basic(x):
@@ -92,8 +97,14 @@ class Graph:
                     r += np.multiply(y_val[i],polynoms[i](x),dtype=object)
                 return r
             return lagr_poly
-        X =np.linspace(min(x),max(x))
-        Y = Lagr(x,y)
+        # X =np.linspace(min(x),max(x))
+        # Y = Lagr(x,y)
+        # ax.plot(X, Y(X))
+        X =np.linspace(min(x1),max(x1))
+        Y = Lagr(x1,y1)
+        ax.plot(X, Y(X))
+        X =np.linspace(min(x2),max(x2))
+        Y = Lagr(x2,y2)
         ax.plot(X, Y(X))
     # кусочно-параболическая
     def parabolic(self):
@@ -102,7 +113,7 @@ class Graph:
 
         Y = []
         a, b, c = symbols('a b c')
-        for i in range(1,len(x)-1):
+        for i in range(0,len(x)):
             system_eq = [Eq(a*x[i-1]**2 + b*x[i-1] + c, y[i-1]), Eq(a*x[i]**2 + b*x[i] + c, y[i]), Eq(a*x[i+1]**2 + b*x[i+1] + c, y[i+1])]
             solution = solve(system_eq)
             X = np.linspace(x[i], x[i+1])
